@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	"runtime"
 )
@@ -14,13 +15,15 @@ func main() {
 	portPtr := flag.Int("port", 8080, "port number")
 	flag.Parse()
 
-	router := gin.New()
+	r := gin.New()
 
-	router.GET("/", func(c *gin.Context) {
+	r.GET("/", func(c *gin.Context) {
 		c.String(200, *messagePtr)
 	})
 
+	r.Use(static.Serve("/files", static.LocalFile("files", true)))
+
 	// Listen and server on 0.0.0.0:8080
 	port := fmt.Sprintf(":%d", *portPtr)
-	router.Run(port)
+	r.Run(port)
 }
