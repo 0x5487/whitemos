@@ -8,16 +8,26 @@ import (
 	"runtime"
 )
 
+type JsonHello struct {
+	Message string `json:"message"`
+}
+
 func main() {
 	runtime.GOMAXPROCS(4)
 
-	messagePtr := flag.String("message", "hello world", "display the message.")
+	messagePtr := flag.String("message", "Hello, World!", "display the message.")
 	portPtr := flag.Int("port", 8080, "port number")
 	flag.Parse()
 
 	r := gin.New()
 
-	r.GET("/", func(c *gin.Context) {
+	r.GET("/json", func(c *gin.Context) {
+		myJson := JsonHello{Message: "Hello, World!"}
+		c.JSON(200, myJson)
+
+	})
+
+	r.GET("/plaintext", func(c *gin.Context) {
 		c.String(200, *messagePtr)
 	})
 
