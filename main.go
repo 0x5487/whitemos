@@ -7,8 +7,8 @@ func main() {
 	nap.UseFunc(dumpMiddleware())
 
 	router := napnap.NewRouter()
-	router.Get("/api/hello-world", getHelloWorld)
-	router.Get("/hello-world", getHelloWorld)
+	router.All("/api/hello-world", getHelloWorld)
+	router.All("/hello-world", getHelloWorld)
 
 	nap.Use(router)
 	nap.Run(":8000")
