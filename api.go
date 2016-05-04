@@ -22,3 +22,11 @@ func getHelloWorld(c *napnap.Context) {
 
 	c.String(200, payLoad.Message)
 }
+
+func throwInternalError(c *napnap.Context) {
+	c.String(500, "internal error")
+}
+
+func throwBadRequest(c *napnap.Context) {
+	c.String(400, "bad request")
+}

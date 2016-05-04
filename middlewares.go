@@ -17,3 +17,9 @@ func dumpMiddleware() napnap.MiddlewareFunc {
 		next(c)
 	}
 }
+
+func notFoundMiddleware() napnap.MiddlewareFunc {
+	return func(c *napnap.Context, next napnap.HandlerFunc) {
+		c.SetStatus(404)
+	}
+}
