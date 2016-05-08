@@ -5,6 +5,7 @@ import "github.com/jasonsoft/napnap"
 func main() {
 	nap := napnap.New()
 	nap.UseFunc(dumpMiddleware())
+	nap.Use(napnap.NewHealth())
 
 	router := napnap.NewRouter()
 	router.All("/api/hello-world", getHelloWorld)
