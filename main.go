@@ -10,6 +10,7 @@ func main() {
 	router := napnap.NewRouter()
 	router.All("/api/hello-world", getHelloWorld)
 	router.All("/hello-world", getHelloWorld)
+	router.Get("/timeout", timeoutEndpoint)
 	router.Get("/500", throwInternalError)
 	router.Get("/400", throwBadRequest)
 	nap.Use(router)

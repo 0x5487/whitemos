@@ -1,6 +1,10 @@
 package main
 
-import "github.com/jasonsoft/napnap"
+import (
+	"time"
+
+	"github.com/jasonsoft/napnap"
+)
 
 type Payload struct {
 	Message string `json:"message"`
@@ -29,4 +33,8 @@ func throwInternalError(c *napnap.Context) {
 
 func throwBadRequest(c *napnap.Context) {
 	c.String(400, "bad request")
+}
+
+func timeoutEndpoint(c *napnap.Context) {
+	time.Sleep(3 * time.Minute)
 }
