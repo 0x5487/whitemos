@@ -28,11 +28,11 @@ func getHelloWorld(c *napnap.Context) {
 }
 
 func throwInternalError(c *napnap.Context) {
-	c.String(500, "internal error")
+	c.String(500, "internal error/發生未知錯誤")
 }
 
 func throwBadRequest(c *napnap.Context) {
-	c.String(400, "bad request")
+	c.String(400, "bad request/找不到")
 }
 
 func timeoutEndpoint(c *napnap.Context) {
