@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"time"
 
 	"github.com/jasonsoft/napnap"
@@ -16,7 +17,7 @@ func newPayLoad() Payload {
 	}
 }
 
-func getHelloWorld(c *napnap.Context) {
+func getHelloWorldEndpoint(c *napnap.Context) {
 	payLoad := newPayLoad()
 
 	if c.Request.Header.Get("Accept") == "application/json" {
@@ -27,11 +28,16 @@ func getHelloWorld(c *napnap.Context) {
 	c.String(200, payLoad.Message)
 }
 
-func throwInternalError(c *napnap.Context) {
+func getHostnameEndpoint(c *napnap.Context) {
+	hostname, _ := os.Hostname()
+	c.String(200, hostname)
+}
+
+func throwInternalErrorEndpoint(c *napnap.Context) {
 	c.String(500, "internal error/發生未知錯誤")
 }
 
-func throwBadRequest(c *napnap.Context) {
+func throwBadRequestEndpoint(c *napnap.Context) {
 	c.String(400, "bad request/找不到")
 }
 
