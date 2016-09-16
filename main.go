@@ -18,6 +18,7 @@ func main() {
 	router.All("/api/hello-world", getHelloWorldEndpoint)
 	router.All("/hello-world", getHelloWorldEndpoint)
 	router.Get("/timeout", timeoutEndpoint)
+	router.Get("/proxy", proxyEndpoint)
 	router.Get("/500", throwInternalErrorEndpoint)
 	router.Get("/400", throwBadRequestEndpoint)
 	nap.Use(router)

@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/jasonsoft/napnap"
+	"github.com/jasonsoft/request"
 )
 
 type Payload struct {
@@ -39,6 +40,19 @@ func throwInternalErrorEndpoint(c *napnap.Context) {
 
 func throwBadRequestEndpoint(c *napnap.Context) {
 	c.String(400, "bad request/找不到")
+}
+
+func proxyEndpoint(c *napnap.Context) {
+	host := c.Query("host")
+	path := c.Query("path")
+	url := host + path
+	resp, errs := request.GET(url).End()
+
+	if errs != nil {
+		c.String(500, errs[0].Error())
+	}
+
+	c.String(200, resp.String())
 }
 
 func timeoutEndpoint(c *napnap.Context) {
