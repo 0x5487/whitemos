@@ -1,0 +1,11 @@
+FROM alpine:3.4
+LABEL owner="Jason Lee"
+
+RUN apk update && \
+    apk add --no-cache curl && \
+    mkdir -p /jasonsoft/test-server
+ADD test-server /jasonsoft/test-server/test-server
+WORKDIR /jasonsoft/test-server
+CMD ./test-server
+
+HEALTHCHECK --interval=5s --timeout=10s CMD curl -f http://localhost/health || exit 1

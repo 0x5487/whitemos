@@ -10,8 +10,7 @@ func main() {
 	nap.Use(static)
 
 	// debug mode
-	nap.UseFunc(dumpMiddleware())
-	nap.Use(napnap.NewHealth())
+	// nap.UseFunc(dumpMiddleware())
 
 	router := napnap.NewRouter()
 	router.Get("/hostname", getHostnameEndpoint)
@@ -20,8 +19,12 @@ func main() {
 	router.Get("/timeout", timeoutEndpoint)
 	router.Get("/500", throwInternalErrorEndpoint)
 	router.Get("/400", throwBadRequestEndpoint)
+	router.Get("/health", healthEndpoint)
+	router.Get("/health/start", startHealthEndpoint)
+	router.Get("/health/stop", stopHealthEndpoint)
+
 	nap.Use(router)
 	nap.UseFunc(notFoundMiddleware())
 
-	nap.Run(":10080")
+	nap.Run(":80")
 }
