@@ -4,6 +4,7 @@ LABEL owner="Jason Lee"
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache curl && \
+    rm -rf /var/cache/apk/* && \
     mkdir -p /jasonsoft/test-server
 ADD test-server /jasonsoft/test-server/test-server
 WORKDIR /jasonsoft/test-server
