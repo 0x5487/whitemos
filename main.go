@@ -1,6 +1,11 @@
 package main
 
-import "github.com/jasonsoft/napnap"
+import (
+	"os"
+	"strings"
+
+	"github.com/jasonsoft/napnap"
+)
 
 func main() {
 	nap := napnap.New()
@@ -9,8 +14,11 @@ func main() {
 	static := napnap.NewStatic("./public")
 	nap.Use(static)
 
-	// debug mode
-	// nap.UseFunc(dumpMiddleware())
+	env := strings.ToLower(os.Getenv("WHITEMOS_ENV"))
+	println("Env:", env)
+	if env == "development" {
+		nap.UseFunc(dumpMiddleware())
+	}
 
 	router := napnap.NewRouter()
 	router.Get("/hostname", getHostnameEndpoint)
@@ -27,5 +35,6 @@ func main() {
 	nap.Use(router)
 	nap.UseFunc(notFoundMiddleware())
 
-	nap.Run(":10080")
+	server := napnap.NewHttpEngine(":80")
+	nap.Run(server)
 }
