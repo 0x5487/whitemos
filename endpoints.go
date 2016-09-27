@@ -50,10 +50,10 @@ func proxyEndpoint(c *napnap.Context) {
 	host := c.Query("host")
 	path := c.Query("path")
 	url := host + path
-	resp, errs := request.GET(url).End()
+	resp, err := request.GET(url).End()
 
-	if errs != nil {
-		c.String(500, errs[0].Error())
+	if err != nil {
+		c.String(500, err.Error())
 	}
 
 	c.String(200, resp.String())

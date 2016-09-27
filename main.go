@@ -27,5 +27,5 @@ func main() {
 	nap.Use(router)
 	nap.UseFunc(notFoundMiddleware())
 
-	nap.Run(":80")
+	nap.Run(":10080")
 }
