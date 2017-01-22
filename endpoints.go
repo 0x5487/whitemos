@@ -6,6 +6,7 @@ import (
 
 	"github.com/jasonsoft/napnap"
 	"github.com/jasonsoft/request"
+	uuid "github.com/satori/go.uuid"
 )
 
 var (
@@ -20,6 +21,30 @@ func newPayLoad() Payload {
 	return Payload{
 		Message: "Hello, World!",
 	}
+}
+
+type IndexViewModel struct {
+	Hostname  string
+	ClientIP  string
+	RequestID string
+	Date      string
+	Env       string
+}
+
+func displayIndexEndpoint(c *napnap.Context) {
+	hostname, _ := os.Hostname()
+	u1 := uuid.NewV4()
+	nowUTC := time.Now().UTC()
+
+	data := IndexViewModel{
+		Hostname:  hostname,
+		ClientIP:  c.RemoteIPAddress(),
+		RequestID: u1.String(),
+		Date:      nowUTC.String(),
+		Env:       _env,
+	}
+
+	c.Render(200, "index.html", data)
 }
 
 func getHelloWorldEndpoint(c *napnap.Context) {
@@ -47,10 +72,12 @@ func throwBadRequestEndpoint(c *napnap.Context) {
 }
 
 func proxyEndpoint(c *napnap.Context) {
-	host := c.Query("host")
-	path := c.Query("path")
-	url := host + path
-	resp, err := request.GET(url).End()
+	clientIP := c.RemoteIPAddress()
+	url := c.Query("url")
+	resp, err := request.
+		GET(url).
+		Set("X-Forwarded-For", clientIP).
+		End()
 
 	if err != nil {
 		c.String(500, err.Error())
