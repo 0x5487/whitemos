@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"time"
 
@@ -80,14 +81,26 @@ func proxyEndpoint(c *napnap.Context) {
 		End()
 
 	if err != nil {
+		println("err")
 		c.String(500, err.Error())
+		return
 	}
 
+	println("good")
 	c.String(200, resp.String())
 }
 
 func timeoutEndpoint(c *napnap.Context) {
-	time.Sleep(3 * time.Minute)
+	c.Writer.WriteHeader(200)
+
+	for i := 0; i < 50; i++ {
+		fmt.Println("sleeping", i)
+		//c.Writer.Write([]byte("s"))
+		time.Sleep(1 * time.Second)
+	}
+
+	//c.String(200, "aaa")
+	//time.Sleep(3 * time.Minute)
 }
 
 func healthEndpoint(c *napnap.Context) {
@@ -107,4 +120,28 @@ func startHealthEndpoint(c *napnap.Context) {
 func stopHealthEndpoint(c *napnap.Context) {
 	_isHealth = false
 	c.SetStatus(200)
+}
+
+func hub1Endpoint(c *napnap.Context) {
+	consumer := NewConsumer()
+	msg := <-consumer.Queue
+
+	if msg.OP == "done" {
+		c.String(200, "done")
+		return
+	}
+
+	c.String(200, "end")
+}
+
+func hub2Endpoint(c *napnap.Context) {
+	consumer := NewConsumer()
+	msg := <-consumer.Queue
+
+	if msg.OP == "done" {
+		c.String(200, "done")
+		return
+	}
+
+	c.String(200, "end")
 }

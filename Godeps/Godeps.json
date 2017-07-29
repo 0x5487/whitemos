@@ -1,0 +1,20 @@
+{
+	"ImportPath": "github.com/jasonsoft/whitemos",
+	"GoVersion": "go1.8",
+	"GodepVersion": "v79",
+	"Deps": [
+		{
+			"ImportPath": "github.com/jasonsoft/napnap",
+			"Rev": "9be0e54d96ac2ebe34f749d3a891767a469bb4e9"
+		},
+		{
+			"ImportPath": "github.com/jasonsoft/request",
+			"Rev": "55e0b4ee9e3b47b933197831136e7ff00401b351"
+		},
+		{
+			"ImportPath": "github.com/satori/go.uuid",
+			"Comment": "v1.1.0-8-g5bf94b6",
+			"Rev": "5bf94b69c6b68ee1b541973bb8e1144db23a194b"
+		}
+	]
+}

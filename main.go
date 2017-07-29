@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"strings"
+	"time"
 
 	"github.com/jasonsoft/napnap"
 )
@@ -15,14 +16,6 @@ func main() {
 	nap := napnap.New()
 	nap.ForwardRemoteIpAddress = true
 	nap.SetRender("views/*")
-
-	server := napnap.NewHttpEngine(":80")
-	_env = strings.ToLower(os.Getenv("WHITEMOS_ENV"))
-	println("Env:", _env)
-	if _env == "development" {
-		server.SetKeepAlivesEnabled(false)
-		nap.UseFunc(dumpMiddleware())
-	}
 
 	// add health check
 	nap.Use(napnap.NewHealth())
@@ -43,9 +36,24 @@ func main() {
 	router.Get("/health", healthEndpoint)
 	router.Get("/health/start", startHealthEndpoint)
 	router.Get("/health/stop", stopHealthEndpoint)
+
+	//router.Get("/hubs/1", )
 	nap.Use(router)
 
 	nap.Use(napnap.NewNotfoundMiddleware())
+
+	server := napnap.NewHttpEngine(":80")
+	server.ReadTimeout = 3 * time.Second
+	server.WriteTimeout = 3 * time.Second
+	server.IdleTimeout = 10 * time.Second
+	server.SetKeepAlivesEnabled(false)
+
+	_env = strings.ToLower(os.Getenv("WHITEMOS_ENV"))
+	println("Env:", _env)
+	if _env == "development" {
+		server.SetKeepAlivesEnabled(false)
+		nap.UseFunc(dumpMiddleware())
+	}
 
 	nap.Run(server)
 }

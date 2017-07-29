@@ -1,0 +1,23 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/jwplayer/7.1.4/jwplayer.js"></script>
+    <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id=cover></div>
+    <script>
+$(document).ready(function() {  
+    jwplayer("cover").setup({
+        file: "rtmp://192.168.1.223/live/test.flv",
+        image: "start.png",
+        height: 360,
+        width: 640
+    }); 
+});
+</script>
+
+</body>
+
+</html>

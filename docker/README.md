@@ -1,0 +1,1 @@
+docker build -t jasonsoft/whitemos -f docker/dockerfile .
