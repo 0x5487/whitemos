@@ -26,6 +26,7 @@ func main() {
 
 	router := napnap.NewRouter()
 	router.Get("/", displayIndexEndpoint)
+	router.Get("/panic", panicEndpoint)
 	router.Get("/hostname", getHostnameEndpoint)
 	router.All("/api/hello-world", getHelloWorldEndpoint)
 	router.All("/hello-world", getHelloWorldEndpoint)

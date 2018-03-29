@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"time"
@@ -46,6 +47,10 @@ func displayIndexEndpoint(c *napnap.Context) {
 	}
 
 	c.Render(200, "index.html", data)
+}
+
+func panicEndpoint(c *napnap.Context) {
+	panic(errors.New("oops..."))
 }
 
 func getHelloWorldEndpoint(c *napnap.Context) {
