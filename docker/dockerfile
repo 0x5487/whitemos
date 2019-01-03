@@ -1,9 +1,9 @@
-FROM golang:1.10 AS builder
+FROM golang:latest AS builder
 COPY . /go/src/github.com/jasonsoft/whitemos/
 WORKDIR /go/src/github.com/jasonsoft/whitemos
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build
 
-FROM alpine:3.7
+FROM alpine:latest
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache curl && \
