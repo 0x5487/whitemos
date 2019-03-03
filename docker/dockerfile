@@ -1,6 +1,15 @@
 FROM golang:latest AS builder
-COPY . /go/src/github.com/jasonsoft/whitemos/
-WORKDIR /go/src/github.com/jasonsoft/whitemos
+
+RUN mkdir /whitemos
+WORKDIR /whitemos
+ENV GO111MODULE=on 
+
+COPY go.mod . 
+COPY go.sum .
+RUN go mod download
+
+COPY . .
+
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build
 
 FROM alpine:latest
@@ -10,9 +19,9 @@ RUN apk update && \
     rm -rf /var/cache/apk/* && \
     mkdir -p /jasonsoft/whitemos
 
-COPY --from=builder /go/src/github.com/jasonsoft/whitemos/whitemos /jasonsoft/whitemos/whitemos 
-COPY --from=builder /go/src/github.com/jasonsoft/whitemos/views /jasonsoft/whitemos/views
-COPY --from=builder /go/src/github.com/jasonsoft/whitemos/public /jasonsoft/whitemos/public
+COPY --from=builder /whitemos/whitemos /jasonsoft/whitemos/whitemos 
+COPY --from=builder /whitemos/views /jasonsoft/whitemos/views
+COPY --from=builder /whitemos/public /jasonsoft/whitemos/public
 WORKDIR /jasonsoft/whitemos
 CMD ./whitemos
 
