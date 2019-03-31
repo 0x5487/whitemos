@@ -1,7 +1,8 @@
 helm install --dry-run --debug ./whitemos
 
-helm install --name whitemos ./whitemos
-helm install --name whitemos jasonsoft/whitemos
+#### install or upgrade depending on if the release exists
+helm upgrade --install whotemos ./whitemos --wait 
+helm upgrade --install whotemos jasonsoft/whitemos --wait
 
 helm delete --purge whitemos
 
