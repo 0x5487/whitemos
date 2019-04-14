@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: jasonsoft/whitemos
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 nameOverride: ""
 fullnameOverride: ""

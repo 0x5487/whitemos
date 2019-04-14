@@ -14,8 +14,13 @@ var (
 
 func main() {
 	nap := napnap.New()
-	nap.ForwardRemoteIpAddress = true
 	nap.SetRender("views/*")
+
+	_env = strings.ToLower(os.Getenv("WHITEMOS_ENV"))
+	println("Env:", _env)
+	if _env == "development" {
+		nap.UseFunc(dumpMiddleware())
+	}
 
 	// add health check
 	nap.Use(napnap.NewHealth())
@@ -28,6 +33,7 @@ func main() {
 	router.Get("/", displayIndexEndpoint)
 	router.Get("/panic", panicEndpoint)
 	router.Get("/hostname", getHostnameEndpoint)
+	router.Get("/auth", authEndpoint)
 	router.All("/api/hello-world", getHelloWorldEndpoint)
 	router.All("/hello-world", getHelloWorldEndpoint)
 	router.Get("/timeout", timeoutEndpoint)
@@ -40,21 +46,13 @@ func main() {
 
 	//router.Get("/hubs/1", )
 	nap.Use(router)
-
 	nap.Use(napnap.NewNotfoundMiddleware())
 
 	server := napnap.NewHttpEngine(":10080")
-	server.ReadTimeout = 3 * time.Second
-	server.WriteTimeout = 3 * time.Second
-	server.IdleTimeout = 10 * time.Second
-	server.SetKeepAlivesEnabled(false)
-
-	_env = strings.ToLower(os.Getenv("WHITEMOS_ENV"))
-	println("Env:", _env)
-	if _env == "development" {
-		server.SetKeepAlivesEnabled(false)
-		nap.UseFunc(dumpMiddleware())
-	}
+	server.ReadTimeout = 30 * time.Second
+	server.WriteTimeout = 30 * time.Second
+	server.IdleTimeout = 30 * time.Second
+	//server.SetKeepAlivesEnabled(false)
 
 	nap.Run(server)
 }

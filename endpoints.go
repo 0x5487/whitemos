@@ -33,6 +33,11 @@ type IndexViewModel struct {
 	Env       string
 }
 
+type UserInfo struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
 func displayIndexEndpoint(c *napnap.Context) {
 	hostname, _ := os.Hostname()
 	u1 := uuid.NewV4()
@@ -67,6 +72,17 @@ func getHelloWorldEndpoint(c *napnap.Context) {
 func getHostnameEndpoint(c *napnap.Context) {
 	hostname, _ := os.Hostname()
 	c.String(200, hostname)
+}
+
+func authEndpoint(c *napnap.Context) {
+	token := c.RequestHeader("Authorization")
+	if len(token) == 0 {
+		c.SetStatus(401)
+		return
+	}
+
+	c.RespHeader("X-Secret", "abcd-key")
+	c.SetStatus(200)
 }
 
 func throwInternalErrorEndpoint(c *napnap.Context) {

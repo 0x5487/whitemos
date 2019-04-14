@@ -2,4 +2,4 @@ apiVersion: v1
 appVersion: "1.0"
 description: A Helm chart for whitemos
 name: whitemos
-version: 1903.4.0
+version: 1904.2.1
