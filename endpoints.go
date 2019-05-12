@@ -42,16 +42,19 @@ func displayIndexEndpoint(c *napnap.Context) {
 	hostname, _ := os.Hostname()
 	u1 := uuid.NewV4()
 	nowUTC := time.Now().UTC()
-
 	data := IndexViewModel{
 		Hostname:  hostname,
-		ClientIP:  c.RemoteIPAddress(),
+		ClientIP:  c.ClientIP(),
 		RequestID: u1.String(),
 		Date:      nowUTC.String(),
 		Env:       _env,
 	}
 
-	c.Render(200, "index.html", data)
+	fmt.Print("bbb")
+	err := c.Render(200, "index.html", data)
+	if err != nil {
+		fmt.Print(err)
+	}
 }
 
 func panicEndpoint(c *napnap.Context) {
@@ -94,7 +97,7 @@ func throwBadRequestEndpoint(c *napnap.Context) {
 }
 
 func proxyEndpoint(c *napnap.Context) {
-	clientIP := c.RemoteIPAddress()
+	clientIP := c.ClientIP()
 	url := c.Query("url")
 	resp, err := request.
 		GET(url).

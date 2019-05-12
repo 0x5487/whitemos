@@ -14,7 +14,7 @@ var (
 
 func main() {
 	nap := napnap.New()
-	nap.SetRender("views/*")
+	nap.SetRender("./templates")
 
 	_env = strings.ToLower(os.Getenv("WHITEMOS_ENV"))
 	println("Env:", _env)
